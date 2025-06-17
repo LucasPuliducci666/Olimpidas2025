@@ -1,7 +1,10 @@
 package com.example.olimpiadas25.controller;
 
+import com.example.olimpiadas25.dto.request.ClientRequestDTO;
+import com.example.olimpiadas25.dto.response.ClientResponseDTO;
 import com.example.olimpiadas25.persistence.entity.ClientEntity;
 import com.example.olimpiadas25.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,25 +21,24 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientEntity> getAllClients() {
+    public List<ClientResponseDTO> getAllClients() {
         return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientEntity> getClientById(@PathVariable Long id) {
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable Long id) {
         return clientService.getClientById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ClientEntity createClient(@RequestBody ClientEntity client) {
-        return clientService.createClient(client);
+    public ResponseEntity<ClientResponseDTO> createClient(@Valid @RequestBody ClientRequestDTO dto) {
+        return ResponseEntity.ok(clientService.createClient(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientEntity> updateClient(@PathVariable Long id, @RequestBody ClientEntity client) {
-        return clientService.updateClient(id, client)
+    public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable Long id, @RequestBody ClientRequestDTO dto) {
+        return clientService.updateClient(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

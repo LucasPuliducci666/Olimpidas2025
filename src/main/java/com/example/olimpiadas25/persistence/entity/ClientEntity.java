@@ -1,5 +1,7 @@
 package com.example.olimpiadas25.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -35,7 +37,11 @@ public class ClientEntity {
     @Column(nullable = false)
     private String direccion;
 
+    @Column(nullable = false)
+    private Boolean admin;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PedidoEntity> pedidos;
 
 }

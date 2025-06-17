@@ -1,5 +1,7 @@
 package com.example.olimpiadas25.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -17,8 +19,9 @@ public class PaquetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_paquete;
 
-    @Column(nullable = false)
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "tipo")
+    private Tipo tipo;
 
     @Column(nullable = false)
     private String nombre;
@@ -27,12 +30,19 @@ public class PaquetEntity {
     private String descripcion;
 
     @Column(nullable = false)
-    private double precio;
+    private Double precio;
 
     @Column(nullable = false)
-    private boolean Isdisp;
+    private Boolean Internacional;
+
+    @Column(nullable = false, name = "capacidad")
+    private Integer capacidad;
+
+    @Column(nullable = false, name = "hotel")
+    private String hotel;
 
     @OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PedidoEntity> pedidos;
 
 }

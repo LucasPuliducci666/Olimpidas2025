@@ -1,11 +1,13 @@
 package com.example.olimpiadas25.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,26 +17,21 @@ public class PedidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pedido;
-
-    @Getter
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    private ClientEntity client;
-
-    @Column(nullable = false)
-    private LocalDate fecha;
-
-    @Column(nullable = false)
-    private String estado;
+    @Column(name = "id_pedido")
+    private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
+    @JoinColumn(name = "id_cliente", nullable = false)
     private ClientEntity cliente;
 
     @ManyToOne
-    @JoinColumn(name = "id_paquete")
+    @JoinColumn(name = "id_paquete", nullable = false)
     private PaquetEntity paquete;
+
+    private LocalDateTime fecha = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "tipo")
+    private Estado estado;
 
 }
