@@ -3,6 +3,8 @@ package com.example.olimpiadas25.controller;
 
 import com.example.olimpiadas25.dto.request.PedidoRequestDTO;
 import com.example.olimpiadas25.dto.response.PedidoResponseDTO;
+import com.example.olimpiadas25.persistence.entity.PedidoEntity;
+import com.example.olimpiadas25.service.EmailSenderService;
 import com.example.olimpiadas25.service.PedidoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class PedidoController {
 
     private final PedidoService pedidoService;
+    private final EmailSenderService emailSenderService;
 
-    public PedidoController(PedidoService pedidoService) {
+    public PedidoController(PedidoService pedidoService, EmailSenderService emailSenderService) {
         this.pedidoService = pedidoService;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping
@@ -42,6 +46,18 @@ public class PedidoController {
         return pedidoService.updatePedido(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/entregar")
+    public ResponseEntity<PedidoEntity> entregarPedido(@PathVariable Integer id) {
+        PedidoEntity pedido = emailSenderService.entregarPedido(id);
+        return ResponseEntity.ok(pedido);
+    }
+
+    @PutMapping("/{id}/anular")
+    public ResponseEntity<PedidoEntity> anularPedido(@PathVariable Integer id) {
+        PedidoEntity pedido = emailSenderService.anularPedido(id);
+        return ResponseEntity.ok(pedido);
     }
 
     @DeleteMapping("/{id}")

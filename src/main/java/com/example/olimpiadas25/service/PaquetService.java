@@ -27,7 +27,7 @@ public class PaquetService {
         dto.setDescripcion(paquet.getDescripcion());
         dto.setPrecio(paquet.getPrecio());
         dto.setCapacidad(paquet.getCapacidad());
-        dto.setHotel(paquet.getHotel());
+        dto.setUbicacion(paquet.getUbicacion());
         dto.setInternacional(paquet.getInternacional());
         return dto;
     }
@@ -38,7 +38,7 @@ public class PaquetService {
         entity.setDescripcion(dto.getDescripcion());
         entity.setPrecio(dto.getPrecio());
         entity.setCapacidad(dto.getCapacidad());
-        entity.setHotel(dto.getHotel());
+        entity.setUbicacion(dto.getUbicacion());
         entity.setInternacional(dto.getInternacional());
     }
 

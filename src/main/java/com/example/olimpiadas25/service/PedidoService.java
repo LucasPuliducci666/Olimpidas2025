@@ -47,13 +47,14 @@ import java.util.Optional;
             paquetDTO.setDescripcion(paquet.getDescripcion());
             paquetDTO.setPrecio(paquet.getPrecio());
             paquetDTO.setCapacidad(paquet.getCapacidad());
-            paquetDTO.setHotel(paquet.getHotel());
+            paquetDTO.setUbicacion(paquet.getUbicacion());
             paquetDTO.setInternacional(paquet.getInternacional());
 
             dto.setId(pedido.getId());
             dto.setCliente(clientDTO);
             dto.setPaquete(paquetDTO);
-            dto.setFecha(pedido.getFecha());
+            dto.setFechainic(pedido.getFechainic());
+            dto.setFechafin(pedido.getFechafin());
             dto.setEstado(String.valueOf(pedido.getEstado()));
             return dto;
         }
@@ -83,7 +84,8 @@ import java.util.Optional;
             PedidoEntity pedido = new PedidoEntity();
             pedido.setCliente(clienteOpt.get());
             pedido.setPaquete(paqueteOpt.get());
-            pedido.setFecha(dto.getFecha() != null ? dto.getFecha() : LocalDateTime.now());
+            pedido.setFechainic(dto.getFechainic() != null ? dto.getFechainic() : LocalDateTime.now());
+            pedido.setFechafin(dto.getFechafin() != null ? dto.getFechafin() : LocalDateTime.now());
             pedido.setEstado(dto.getEstado());
 
             return Optional.of(toResponseDTO(pedidoRepository.save(pedido)));
@@ -101,7 +103,8 @@ import java.util.Optional;
 
                 existing.setCliente(clienteOpt.get());
                 existing.setPaquete(paqueteOpt.get());
-                existing.setFecha(dto.getFecha() != null ? dto.getFecha() : LocalDateTime.now());
+                existing.setFechainic(dto.getFechainic() != null ? dto.getFechainic() : LocalDateTime.now());
+                existing.setFechafin(dto.getFechafin() != null ? dto.getFechafin() : LocalDateTime.now());
                 existing.setEstado(dto.getEstado());
 
                 return Optional.of(toResponseDTO(pedidoRepository.save(existing)));

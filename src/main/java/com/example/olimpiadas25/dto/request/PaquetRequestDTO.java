@@ -33,9 +33,9 @@ public class PaquetRequestDTO {
     @Positive
     private Integer capacidad;
 
-    @Size(max = 50, message = "El nombre del hotel no debe superar los 50 caracteres")
-    @NotBlank(message = "El nombre del hotel es obligatoria")
-    private String hotel;
+    @Size(max = 50, message = "El nombre de la ubicacion no debe superar los 50 caracteres")
+    @NotBlank(message = "El nombre de la ubicacion es obligatorio")
+    private String ubicacion;
 
 }
 

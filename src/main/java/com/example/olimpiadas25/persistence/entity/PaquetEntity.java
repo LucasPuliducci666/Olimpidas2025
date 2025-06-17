@@ -38,8 +38,8 @@ public class PaquetEntity {
     @Column(nullable = false, name = "capacidad")
     private Integer capacidad;
 
-    @Column(nullable = false, name = "hotel")
-    private String hotel;
+    @Column(nullable = false, name = "ubicacion")
+    private String ubicacion;
 
     @OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

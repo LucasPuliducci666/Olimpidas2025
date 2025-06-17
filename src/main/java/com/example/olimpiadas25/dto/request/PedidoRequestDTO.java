@@ -19,7 +19,11 @@ public class PedidoRequestDTO {
 
         @NotNull
         @Future
-        private LocalDateTime fecha;
+        private LocalDateTime fechainic;
+
+        @NotNull
+        @Future
+        private LocalDateTime fechafin;
 
         @NotNull
         private Estado estado;

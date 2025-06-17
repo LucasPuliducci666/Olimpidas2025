@@ -28,7 +28,9 @@ public class PedidoEntity {
     @JoinColumn(name = "id_paquete", nullable = false)
     private PaquetEntity paquete;
 
-    private LocalDateTime fecha = LocalDateTime.now();
+    private LocalDateTime fechainic = LocalDateTime.now();
+
+    private LocalDateTime fechafin = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "tipo")

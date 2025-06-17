@@ -10,7 +10,8 @@ public class PedidoResponseDTO {
         private Integer id;
         private ClientResponseDTO cliente;
         private PaquetResponseDTO paquete;
-        private LocalDateTime fecha;
+        private LocalDateTime fechainic;
+        private LocalDateTime fechafin;
         private String estado;
 
 }

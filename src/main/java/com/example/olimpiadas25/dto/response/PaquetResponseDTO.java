@@ -12,7 +12,7 @@ public class PaquetResponseDTO {
     private Double precio;
     private Boolean Internacional;
     private Integer capacidad;
-    private String hotel;
+    private String ubicacion;
 
 
 }
