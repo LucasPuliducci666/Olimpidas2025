@@ -20,7 +20,6 @@ public class PagoService {
         VentaEntity venta = new VentaEntity();
         venta.setCliente(pedido.getCliente());
         venta.setPedido(pedido);
-        venta.setMontoTotal(pedido.getPaquete().getPrecio());
         venta.setFecha(LocalDate.now());
         venta.setMedioPago(medioPago);
         ventaRepository.save(venta);

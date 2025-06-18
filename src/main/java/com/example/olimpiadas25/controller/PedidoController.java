@@ -49,9 +49,9 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/entregar")
-    public ResponseEntity<PedidoEntity> entregarPedido(@PathVariable Integer id) {
+    public ResponseEntity<PedidoResponseDTO> entregarPedido(@PathVariable Integer id) {
         PedidoEntity pedido = emailSenderService.entregarPedido(id);
-        return ResponseEntity.ok(pedido);
+        return ResponseEntity.ok(pedidoService.toResponseDTO(pedido));
     }
 
     @PutMapping("/{id}/anular")

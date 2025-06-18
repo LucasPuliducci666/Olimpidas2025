@@ -1,9 +1,6 @@
 package com.example.olimpiadas25.service;
 
-import com.example.olimpiadas25.persistence.entity.Estado;
-import com.example.olimpiadas25.persistence.entity.PedidoEntity;
-import com.example.olimpiadas25.persistence.entity.PedidoHistoricoEntity;
-import com.example.olimpiadas25.persistence.entity.VentaEntity;
+import com.example.olimpiadas25.persistence.entity.*;
 import com.example.olimpiadas25.persistence.repository.PedidoHistoricoRepository;
 import com.example.olimpiadas25.persistence.repository.PedidoRepository;
 import jakarta.mail.MessagingException;
@@ -39,12 +36,19 @@ public class EmailSenderService {
     private String subjectAnulacion;
 
     public void enviarConfirmacionPedido(String destinatario, String nombre, PedidoEntity pedido) {
+        StringBuilder paquetesHtml = new StringBuilder();
+        for (PaquetEntity paquete : pedido.getPaquetes()) {
+            paquetesHtml.append("- ").append(paquete.getNombre())
+                    .append(" ($").append(paquete.getPrecio()).append(")<br>");
+        }
+
         String asunto = subjectConfirmacion;
         String cuerpo = "<h1>Hola " + nombre + ",</h1>"
                 + "<p>Tu pedido nº<strong>" + pedido.getId() + "</strong> fue <b>confirmado</b> exitosamente.</p>"
-                + "<p>Reservasta en el Hotel: <strong>" + pedido.getPaquete().getUbicacion() + "</strong></p>"
-                + "<p>Para la Fecha del: <strong>" + pedido.getFechainic() + "</strong> hasta el: <strong>" + pedido.getFechafin() + "</strong></p>"
+                + "<p>Reservaste:</p><p><strong>" + paquetesHtml + "</strong></p>"
+                + "<p>Recordá la Fecha!  Del: <strong>" + pedido.getFechainic() + "</strong> hasta el: <strong>" + pedido.getFechafin() + "</strong></p>"
                 + "<p>Gracias por elegirnos!</p>";
+
         enviarCorreo(destinatario, asunto, cuerpo);
     }
 
@@ -52,8 +56,7 @@ public class EmailSenderService {
         String asunto = subjectAnulacion;
         String cuerpo = "<h1>Hola " + nombre + ",</h1>"
                 + "<p>Tu pedido nº<strong>" + pedido.getId() + "</strong> fue <b>anulado</b>.</p>"
-                + "<p>Ubicacion: <strong>" + pedido.getPaquete().getUbicacion() + "</strong></p>"
-                + "<p>Fecha: del <strong>" + pedido.getFechainic() + "</strong> al <strong>" + pedido.getFechafin() + "</strong></p>"
+                + "<p>Anulaste: <strong>" + pedido.getPaquetes() + "</strong></p>"
                 + "<p>Si este no fuiste vos, contactate con el soporte de inmediato.</p>";
         enviarCorreo(destinatario, asunto, cuerpo);
     }
@@ -85,19 +88,6 @@ public class EmailSenderService {
                 pedido
 
         );
-        pagoService.registrarVenta(pedido, VentaEntity.MedioPago.TARJETA_CREDITO);
-
-        PedidoHistoricoEntity historico = new PedidoHistoricoEntity();
-        historico.setFechainic(LocalDate.from(pedido.getFechainic()));
-        historico.setFechafin(LocalDate.from(pedido.getFechafin()));
-        historico.setPrecio(pedido.getPaquete().getPrecio());
-        historico.setEstado(PedidoHistoricoEntity.Estado.entregado);
-        historico.setCliente(pedido.getCliente());
-        historico.setPaquete(pedido.getPaquete());
-
-        pedidoHistoricoRepository.save(historico);
-
-        pedidoRepository.delete(pedido);
 
         return pedido;
     }

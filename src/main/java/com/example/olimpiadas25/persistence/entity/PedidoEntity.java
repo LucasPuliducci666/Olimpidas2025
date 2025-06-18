@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,9 +26,13 @@ public class PedidoEntity {
     @JoinColumn(name = "id_cliente", nullable = false)
     private ClientEntity cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_paquete", nullable = false)
-    private PaquetEntity paquete;
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_paquete",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "paquete_id")
+    )
+    private List<PaquetEntity> paquetes = new ArrayList<>();
 
     private LocalDateTime fechainic = LocalDateTime.now();
 
@@ -35,5 +41,6 @@ public class PedidoEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "Estado")
     private Estado estado;
+
 
 }

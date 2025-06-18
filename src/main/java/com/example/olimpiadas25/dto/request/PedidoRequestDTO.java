@@ -3,10 +3,12 @@ package com.example.olimpiadas25.dto.request;
 import com.example.olimpiadas25.persistence.entity.Estado;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PedidoRequestDTO {
@@ -14,8 +16,8 @@ public class PedidoRequestDTO {
         @NotNull
         private Long clienteId;
 
-        @NotNull
-        private Long paqueteId;
+        @NotEmpty
+        private List<Long> paqueteIds;
 
         @NotNull
         @Future
@@ -27,13 +29,6 @@ public class PedidoRequestDTO {
 
         @NotNull
         private Estado estado;
-
-
-
-
-
-
 }
-
 
 

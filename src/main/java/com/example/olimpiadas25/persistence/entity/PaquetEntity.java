@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -41,8 +42,7 @@ public class PaquetEntity {
     @Column(nullable = false, name = "ubicacion")
     private String ubicacion;
 
-    @OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<PedidoEntity> pedidos;
+    @ManyToMany(mappedBy = "paquetes")
+    private List<PedidoEntity> pedidos = new ArrayList<>();
 
 }

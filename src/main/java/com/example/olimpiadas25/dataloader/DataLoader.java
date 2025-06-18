@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 
 import static com.example.olimpiadas25.persistence.entity.Tipo.*;
@@ -70,7 +71,7 @@ public class DataLoader {
             ClientEntity client4 = new ClientEntity();
             client4.setNombre("Francisco");
             client4.setApellido("Gonzalez");
-            client4.setEmail("GotenGonzalez@gmail.com");
+            client4.setEmail("lucas.a.pulido@gmail.com");
             client4.setPassword("StrangeDragon777");
             client4.setTelefono("19238512");
             client4.setDireccion("Piñeiro");
@@ -163,7 +164,7 @@ public class DataLoader {
             pedido1.setFechafin(LocalDateTime.of(2025, 6, 15, 17, 00));
             pedido1.setEstado(pendiente);
             pedido1.setCliente(client1);
-            pedido1.setPaquete(paquet1);
+            pedido1.setPaquetes(Arrays.asList(paquet1));
             pedido1 = pedidoRepository.save(pedido1);
 
             PedidoEntity pedido2 = new PedidoEntity();
@@ -172,7 +173,7 @@ public class DataLoader {
             pedido2.setFechafin(LocalDateTime.of(2025, 8, 26, 12, 00));
             pedido2.setEstado(pendiente);
             pedido2.setCliente(client2);
-            pedido2.setPaquete(paquet2);
+            pedido2.setPaquetes(Arrays.asList(paquet2));
             pedido2 = pedidoRepository.save(pedido2);
 
             PedidoEntity pedido3 = new PedidoEntity();
@@ -181,7 +182,7 @@ public class DataLoader {
             pedido3.setFechafin(LocalDateTime.of(2025, 10, 24, 21, 00));
             pedido3.setEstado(pendiente);
             pedido3.setCliente(client1);
-            pedido3.setPaquete(paquet3);
+            pedido3.setPaquetes(Arrays.asList(paquet3));
             pedido3 = pedidoRepository.save(pedido3);
 
             PedidoEntity pedido4 = new PedidoEntity();
@@ -190,7 +191,7 @@ public class DataLoader {
             pedido4.setFechafin(LocalDateTime.of(2025, 6, 15, 17, 00));
             pedido4.setEstado(pendiente);
             pedido4.setCliente(client3);
-            pedido4.setPaquete(paquet6);
+            pedido4.setPaquetes(Arrays.asList(paquet6, paquet2));
             pedido4 = pedidoRepository.save(pedido4);
 
             PedidoEntity pedido5 = new PedidoEntity();
@@ -199,7 +200,7 @@ public class DataLoader {
             pedido5.setFechafin(LocalDateTime.of(2025, 6, 15, 17, 00));
             pedido5.setEstado(pendiente);
             pedido5.setCliente(client4);
-            pedido5.setPaquete(paquet5);
+            pedido5.setPaquetes(Arrays.asList(paquet4, paquet5));
             pedido5 = pedidoRepository.save(pedido5);
 
             PedidoEntity pedido6 = new PedidoEntity();
@@ -208,7 +209,7 @@ public class DataLoader {
             pedido6.setFechafin(LocalDateTime.of(2025, 6, 15, 17, 00));
             pedido6.setEstado(pendiente);
             pedido6.setCliente(client5);
-            pedido6.setPaquete(paquet6);
+            pedido6.setPaquetes(Arrays.asList(paquet6));
             pedido6 = pedidoRepository.save(pedido1);
 
         } catch (Exception e) {
