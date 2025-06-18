@@ -33,7 +33,7 @@ public class PedidoEntity {
     private LocalDateTime fechafin = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "tipo")
+    @Column(nullable = false, name = "Estado")
     private Estado estado;
 
 }
