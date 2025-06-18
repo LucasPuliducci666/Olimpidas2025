@@ -1,7 +1,6 @@
 package com.example.olimpiadas25.service;
 
 import com.example.olimpiadas25.persistence.entity.*;
-import com.example.olimpiadas25.persistence.repository.PedidoHistoricoRepository;
 import com.example.olimpiadas25.persistence.repository.PedidoRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -12,16 +11,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 @RequiredArgsConstructor
 public class EmailSenderService {
 
     private final JavaMailSender mailSender;
-    private final PedidoHistoricoRepository pedidoHistoricoRepository;
     private final PedidoRepository pedidoRepository;
-    private final PagoService pagoService;
 
     @Value("${mail.from}")
     private String from;
