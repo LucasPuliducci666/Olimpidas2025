@@ -3,6 +3,7 @@ package com.example.olimpiadas25.controller;
 
 import com.example.olimpiadas25.dto.request.PedidoRequestDTO;
 import com.example.olimpiadas25.dto.response.PedidoResponseDTO;
+import com.example.olimpiadas25.persistence.entity.MetodoPago;
 import com.example.olimpiadas25.persistence.entity.PedidoEntity;
 import com.example.olimpiadas25.service.EmailSenderService;
 import com.example.olimpiadas25.service.PedidoService;
@@ -49,8 +50,8 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/entregar")
-    public ResponseEntity<PedidoResponseDTO> entregarPedido(@PathVariable Integer id) {
-        PedidoEntity pedido = emailSenderService.entregarPedido(id);
+    public ResponseEntity<PedidoResponseDTO> entregarPedido(@PathVariable Integer id, @RequestParam MetodoPago metodoPago) {
+        PedidoEntity pedido = emailSenderService.entregarPedido(id, metodoPago);
         return ResponseEntity.ok(pedidoService.toResponseDTO(pedido));
     }
 

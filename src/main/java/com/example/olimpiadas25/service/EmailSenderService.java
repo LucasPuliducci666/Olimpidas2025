@@ -1,5 +1,6 @@
 package com.example.olimpiadas25.service;
 
+import com.example.olimpiadas25.dto.request.VentaRequestDTO;
 import com.example.olimpiadas25.persistence.entity.*;
 import com.example.olimpiadas25.persistence.repository.PedidoRepository;
 import jakarta.mail.MessagingException;
@@ -17,6 +18,7 @@ public class EmailSenderService {
 
     private final JavaMailSender mailSender;
     private final PedidoRepository pedidoRepository;
+    private final VentaService ventaService;
 
     @Value("${mail.from}")
     private String from;
@@ -48,10 +50,16 @@ public class EmailSenderService {
     }
 
     public void enviarAnulacionPedido(String destinatario, String nombre, PedidoEntity pedido) {
+        StringBuilder paquetesHtml = new StringBuilder();
+        for (PaquetEntity paquete : pedido.getPaquetes()) {
+            paquetesHtml.append("- ").append(paquete.getNombre())
+                    .append(" ($").append(paquete.getPrecio()).append(")<br>");
+        }
+
         String asunto = subjectAnulacion;
         String cuerpo = "<h1>Hola " + nombre + ",</h1>"
                 + "<p>Tu pedido nº<strong>" + pedido.getId() + "</strong> fue <b>anulado</b>.</p>"
-                + "<p>Anulaste: <strong>" + pedido.getPaquetes() + "</strong></p>"
+                + "<p>Anulaste: <strong>" + paquetesHtml + "</strong></p>"
                 + "<p>Si este no fuiste vos, contactate con el soporte de inmediato.</p>";
         enviarCorreo(destinatario, asunto, cuerpo);
     }
@@ -73,10 +81,18 @@ public class EmailSenderService {
     }
 
     @Transactional
-    public PedidoEntity entregarPedido(Integer id) {
+    public PedidoEntity entregarPedido(Integer id, MetodoPago metodoPago) {
         PedidoEntity pedido = pedidoRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+
         pedido.setEstado(Estado.entregado);
+        pedidoRepository.save(pedido);
+
+        VentaRequestDTO ventaDTO = new VentaRequestDTO();
+        ventaDTO.setPedidoId(pedido.getId().longValue());
+        ventaDTO.setMetodoPago(metodoPago);
+        ventaService.registrarVenta(ventaDTO);
+
         enviarConfirmacionPedido(
                 pedido.getCliente().getEmail(),
                 pedido.getCliente().getNombre(),
