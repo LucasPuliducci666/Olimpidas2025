@@ -33,5 +33,5 @@ public class ClientRequestDTO {
     @NotBlank(message = "La direccion es obligatoria")
     private String direccion;
 
-    private Boolean admin = false;
+    private boolean admin = false;
 }

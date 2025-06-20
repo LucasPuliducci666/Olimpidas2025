@@ -31,7 +31,7 @@ public class ClientService {
         client.setPassword(dto.getPassword());
         client.setTelefono(dto.getTelefono());
         client.setDireccion(dto.getDireccion());
-        client.setAdmin(dto.getAdmin());
+        client.setAdmin(dto.isAdmin());
     }
 
     public ClientService(ClientRepository clientRepository) {

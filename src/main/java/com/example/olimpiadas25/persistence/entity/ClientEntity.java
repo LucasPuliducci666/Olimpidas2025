@@ -38,7 +38,7 @@ public class ClientEntity {
     private String direccion;
 
     @Column(nullable = false)
-    private Boolean admin;
+    private boolean admin;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

@@ -1,5 +1,7 @@
 package com.example.olimpiadas25.controller;
 
+import com.example.olimpiadas25.dto.response.AuthResponseDTO;
+import com.example.olimpiadas25.persistence.entity.ClientEntity;
 import com.example.olimpiadas25.persistence.entity.LoginRequest;
 import com.example.olimpiadas25.persistence.repository.ClientRepository;
 import com.example.olimpiadas25.service.JwtService;
@@ -25,14 +27,21 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-
         String jwtToken = jwtService.generateToken((UserDetails) authentication.getPrincipal());
-        return ResponseEntity.ok(jwtToken);
 
+
+        ClientEntity client = clientRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        String rol = client.isAdmin() ? "admin" : "cliente";
+
+        AuthResponseDTO response = new AuthResponseDTO(jwtToken, rol, client.getId_cliente());
+
+        return ResponseEntity.ok(response);
     }
-    }
+}
